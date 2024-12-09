@@ -12,7 +12,6 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    // Créez un compte de test Ethereal
     const testAccount = await nodemailer.createTestAccount();
 
     const transporter = nodemailer.createTransport({
@@ -26,18 +25,18 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
     });
 
     const mailOptions = {
-      from: `"${name}" <${email}>`, // Expéditeur
-      to: "recipient@example.com", // Destinataire
+      from: `"${name}" <${email}>`,
+      to: "recipient@example.com",
       subject: `New Contact Message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     };
 
     const info = await transporter.sendMail(mailOptions);
 
-    console.log("Message sent:", info.messageId);
-    console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
-
-    res.status(200).json({ success: "Message sent successfully!" });
+    res.status(200).json({
+      success: "Message sent successfully!",
+      previewUrl: nodemailer.getTestMessageUrl(info),
+    });
   } catch (error) {
     console.error("Error sending email:", error);
     res.status(500).json({ error: "Failed to send the message." });
