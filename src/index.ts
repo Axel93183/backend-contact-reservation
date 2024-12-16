@@ -1,7 +1,9 @@
+import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-import express, { Request, Response } from "express";
+import bookingRouter from "./routes/booking";
+import contactRouter from "./routes/contact";
 
 dotenv.config();
 
@@ -23,9 +25,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Backend is running!");
 });
 
-// Import routes
-import contactRouter from "./routes/contact";
+// API Routes
 app.use("/api/contact", contactRouter);
+app.use("/api/booking", bookingRouter);
 
 // Start server
 app.listen(PORT, () => {
