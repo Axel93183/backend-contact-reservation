@@ -54,7 +54,7 @@ router.post(
         from: `"${name}" <${email}>`,
         to: "recipient@example.com",
         subject: `New Contact Message from ${name}`,
-        text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+        text: `Nom: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
       };
 
       const info = await transporter.sendMail(mailOptions);

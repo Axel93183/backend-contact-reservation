@@ -38,8 +38,18 @@ router.post(
       return;
     }
 
-    const { title, fullName, email, phone, address, date, time, comments } =
-      req.body;
+    const {
+      title,
+      fullName,
+      email,
+      phone,
+      address,
+      date,
+      time,
+      comments,
+      category,
+      description,
+    } = req.body;
 
     try {
       const testAccount = await nodemailer.createTestAccount();
@@ -57,9 +67,9 @@ router.post(
       const mailOptions = {
         from: `"${fullName}" <${email}>`,
         to: "recipient@example.com",
-        subject: `New Booking for ${title}`,
-        text: `Service: ${title}\nName: ${fullName}\nEmail: ${email}\nPhone: ${phone}\nAddress: ${address}\nDate: ${date}\nTime: ${time}\nComments: ${
-          comments || "None"
+        subject: `Nouvelle réservation : ${title}`,
+        text: `Catégorie: ${category}\nService: ${title}\nDescription: ${description}\nNom: ${fullName}\nEmail: ${email}\nTéléphone: ${phone}\nAdresse: ${address}\nDate: ${date}\nHeure: ${time}\nCommentaires: ${
+          comments || "Aucun"
         }`,
       };
 
