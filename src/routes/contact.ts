@@ -7,22 +7,31 @@ const router = express.Router();
 router.post(
   "/",
   [
-    body("name")
+    body("lastName")
       .matches(/^[a-zA-Z\s\-]+$/)
       .withMessage(
-        "Le nom doit contenir uniquement des lettres, des espaces ou des tirets."
+        "The last name must contain only letters, spaces, or hyphens."
       )
       .notEmpty()
-      .withMessage("Le nom est requis."),
+      .withMessage("Last name is required."),
+
+    body("firstName")
+      .matches(/^[a-zA-Z\s\-]+$/)
+      .withMessage(
+        "The first name must contain only letters, spaces, or hyphens."
+      )
+      .notEmpty()
+      .withMessage("First name is required."),
 
     body("email")
       .matches(/\S+@\S+\.\S+/)
-      .withMessage("Une adresse email valide est requise.")
+      .withMessage("A valid email address is required.")
       .notEmpty()
-      .withMessage("L'adresse email est requise."),
+      .withMessage("Email address is required."),
 
-    body("message").notEmpty().withMessage("Le message est requis."),
+    body("message").notEmpty().withMessage("A message is required."),
   ],
+  
   async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -30,9 +39,9 @@ router.post(
       return;
     }
 
-    const { name, email, message } = req.body;
+    const { lastName, firstName, email, message } = req.body;
 
-    if (!name || !email || !message) {
+    if (!lastName || !firstName || !email || !message) {
       res.status(400).json({ error: "All fields are required." });
       return;
     }
@@ -51,10 +60,10 @@ router.post(
       });
 
       const mailOptions = {
-        from: `"${name}" <${email}>`,
+        from: `"${lastName}" "${firstName}" <${email}>`,
         to: "recipient@example.com",
-        subject: `New Contact Message from ${name}`,
-        text: `Nom: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+        subject: `New Contact Message from ${firstName} ${lastName}`,
+        text: `Nom: ${lastName} Prénom: ${firstName}\nEmail: ${email}\n\nMessage:\n${message}`,
       };
 
       const info = await transporter.sendMail(mailOptions);
