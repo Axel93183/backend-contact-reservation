@@ -45,7 +45,7 @@ router.post(
       .matches(/^([01]\d|2[0-3]):?([0-5]\d)$/)
       .withMessage("A valid time is required."),
   ],
-  
+
   async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -98,7 +98,7 @@ router.post(
         from: `"${lastName}" "${firstName}" <${email}>`,
         to: "recipient@example.com",
         subject: `Nouvelle réservation : ${title}`,
-        text: `Catégorie: ${category}\nService: ${title}\nDescription: ${description}\nNom: ${lastName}\nPrénom: ${firstName}\nEmail: ${email}\nTéléphone: ${phone}\nAdresse: ${address}\nDate: ${date}\nHeure: ${time}\nCommentaires: ${
+        text: `Catégorie: ${category}\n\nService: ${title}\n\nDescription: ${description}\n\nNom: ${lastName} ${firstName}\n\nEmail: ${email}\n\nTéléphone: ${phone}\n\nAdresse: ${address}\n\nDate: ${date}\n\nHeure: ${time}\n\nCommentaires:\n${
           comments || "Aucun"
         }`,
       };

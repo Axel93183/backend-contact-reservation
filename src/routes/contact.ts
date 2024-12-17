@@ -31,7 +31,7 @@ router.post(
 
     body("message").notEmpty().withMessage("A message is required."),
   ],
-  
+
   async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -62,8 +62,8 @@ router.post(
       const mailOptions = {
         from: `"${lastName}" "${firstName}" <${email}>`,
         to: "recipient@example.com",
-        subject: `New Contact Message from ${firstName} ${lastName}`,
-        text: `Nom: ${lastName} Prénom: ${firstName}\nEmail: ${email}\n\nMessage:\n${message}`,
+        subject: `New Contact Message from ${lastName} ${firstName}`,
+        text: `Nom: ${lastName} ${firstName}\n\nEmail: ${email}\n\nMessage:\n${message}`,
       };
 
       const info = await transporter.sendMail(mailOptions);
